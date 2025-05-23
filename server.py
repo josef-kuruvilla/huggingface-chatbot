@@ -1,14 +1,17 @@
 from flask import Flask, request, jsonify
 from huggingface_hub import InferenceClient
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS so your website can call this server
+CORS(app)
 
-# Initialize Hugging Face client
+# Read token securely from environment variable
+hf_token = os.getenv("HF_TOKEN")
+
 client = InferenceClient(
     model="HuggingFaceH4/zephyr-7b-beta",
-    token="your_huggingface_token_here"  # 🔐 Replace this with your actual token
+    token=hf_token
 )
 
 @app.route("/chat", methods=["POST"])
@@ -25,4 +28,4 @@ def chat():
     return jsonify({"reply": response.choices[0].message["content"]})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)  # Port 10000 is recommended for Render
+    app.run(host="0.0.0.0", port=10000)
