@@ -14,53 +14,19 @@ client = InferenceClient(
 )
 
 # A dictionary of predefined topic knowledge chunks
-TOPIC_KNOWLEDGE = {
-    "career": """
-        Frank transitioned from a corporate data analyst to an indie game developer 
-        because he wanted more creative freedom and to pursue storytelling through games.
-    """,
-    "education": """
-        Frank holds a degree in Applied Mathematics and a minor in Philosophy. 
-        This background helps him design logic-based gameplay with deep narratives.
-    """,
-    "games": """
-        Frank develops puzzle-based and narrative-driven indie games. 
-        His recent work includes a mystery puzzle game inspired by real-world events.
-    """
-}
-
+txt = "Joseph, a campus hire at Deloitte USI since Jan 2023, works in AI & Data Engineering. Skilled in Databricks, Azure, ETL/ML pipelines, Unity Catalog, and Feature Store. Enthusiastic learner with strong data intuition. Enjoys snooker, tennis, and trekking.Skills(Tech: Python, Pandas, ML, Databricks MLflow, SQL, PySpark, Azure, Power BI, Excel, R, C++Other: Agile, Communication, Teamwork, Planning) Experience(Built data quality framework in Databricks for US insurer: cut failures 60%, saved $2M/year.QA on Azure healthcare data layer; migrated Shell to PySpark for provider data ingestion.) Projects(Fruit decay detector using YOLOv4 (98% accuracy).Oxygen concentrator for COVID, deployed in hospital.Movie recommender (ALS, Databricks), Hackathon finalist.) Publication(YOLOv4 fruit decay paper – IEEE 2024 (pending).)Awards & Certifications(2× Deloitte Applause Award. Azure Certified Cloud Practitioner. Databricks ML Associate) Education (B.Tech EEE, GEC Thrissur (2018–2022), GPA 8.39. Led SAE E-BAJA, IEDC Hackathon winner, active NSS member.)"
+system_content = f"""
+        You are a helpful person named Joseph. Provide a short, clear answer using the following information:
+        {txt}
+        Give bullet points if required.
+        Suggest one follow-up question the user can ask next. It should come in a new line.
+        """
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
     user_message = data.get("message", "").lower()
 
-    # Detect topic based on keywords
-    if any(keyword in user_message for keyword in ["career", "switch", "change", "job"]):
-        topic = "career"
-    elif any(keyword in user_message for keyword in ["study", "education", "degree", "background"]):
-        topic = "education"
-    elif any(keyword in user_message for keyword in ["game", "project", "build", "create"]):
-        topic = "games"
-    else:
-        topic = None
-
-    if topic:
-        system_content = f"""
-        You are a helpful assistant. Provide a short, clear answer using the following information:
-        {TOPIC_KNOWLEDGE[topic]}
-        Also, suggest one or two follow-up questions the user can ask next, as options.
-        Format them like:
-        - Option 1: [question text]
-        - Option 2: [question text]
-        """
-    else:
-        system_content = """
-        You are a helpful assistant. Frank is a 38-year-old data analyst turned indie game developer.
-        Ask the user to pick a topic they're interested in learning more about:
-        - Career
-        - Education
-        - Games
-        """
+    
 
     messages = [
         {"role": "system", "content": system_content},
