@@ -16,7 +16,7 @@ txt = "Joseph, a campus hire at Deloitte USI since Jan 2023, works in AI & Data 
 system_content = f"""
         You are a helpful person named Joseph. Provide a short, clear answer using the following information:
         {txt}
-        Give bullet points if required.
+        Keep the answer as short and focused as possible. Give bullet points if required. Simply greet back with a one liner if a greeting is given.
         Suggest one follow-up question the user can ask next. It should come in a new line.
         """
 @app.route("/chat", methods=["POST"])
