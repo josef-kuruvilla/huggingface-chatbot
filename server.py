@@ -33,7 +33,7 @@ def chat():
         {"role": "user", "content": user_message}
     ]
 
-    response = client.chat_completion(messages, max_tokens=250)
+    response = client.chat_completion(messages)
     return jsonify({"reply": response.choices[0].message["content"]})
 
 if __name__ == "__main__":
