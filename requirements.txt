@@ -1,3 +1,4 @@
 flask
-huggingface_hub
 flask-cors
+openai>=1.0.0
+huggingface_hub
