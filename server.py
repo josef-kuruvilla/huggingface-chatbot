@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from huggingface_hub import InferenceClient
 from flask_cors import CORS
 import os
+from openai import OpenAI
 
 app = Flask(__name__)
 CORS(app)
